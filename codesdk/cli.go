@@ -28,7 +28,7 @@ func (c *Cli) Run(p *Params) (res *result, err error) {
 	ext, ok := c.compMap[p.Compiler]
 	if !ok {
 		//err = errors.New("不支持的编译语言")
-		err = ecode.New(100)
+		err = notSupport
 		return
 	}
 	cli := NewCli(c.conf).params(p, ext)
@@ -46,7 +46,7 @@ func (c *Cli) Run(p *Params) (res *result, err error) {
 	et := time.Now().UnixNano() / 1e6
 	if err != nil || stderr != "" {
 		//err = errors.New("运行出错")
-		err = ecode.New(101)
+		err = runError
 		return
 	}
 	res = newResult(stdout, et-st)
