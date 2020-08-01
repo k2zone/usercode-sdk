@@ -1,4 +1,4 @@
-module github.com/k2zone/usercodesdk
+module github.com/k2zone/usercode-sdk
 
 go 1.14
 
