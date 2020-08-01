@@ -2,7 +2,6 @@ package codesdk
 
 import (
 	"fmt"
-	"github.com/go-kratos/kratos/pkg/ecode"
 	"os"
 	"time"
 )
