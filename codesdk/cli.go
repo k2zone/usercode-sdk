@@ -34,7 +34,7 @@ func (c *Cli) Run(p *Params) (res *result, err error) {
 	//fmt.Println(cli.toString())
 	st := time.Now().UnixNano() / 1e6
 	var (
-		stdout = "this is test"
+		stdout = "this is test~~>|kTWO|<~~warning"
 		stderr = ""
 	)
 	if os.Getenv("DEPLOY_ENV") != "uat" {

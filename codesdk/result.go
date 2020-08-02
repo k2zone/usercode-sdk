@@ -10,11 +10,12 @@ const _SPLIT_FLAG = "~~>|kTWO|<~~"
 type Result interface {
 	Out() string
 	Err() string
+	Spent() int64
 }
 
 type result struct {
-	out string
-	err string
+	out   string
+	err   string
 	spent int64
 }
 
@@ -36,8 +37,8 @@ func newResult(out string, spent int64) (r *result) {
 	}
 
 	r = &result{
-		out: outBuffer.String(),
-		err: errs,
+		out:   outBuffer.String(),
+		err:   errs,
 		spent: spent,
 	}
 	return
@@ -49,4 +50,8 @@ func (r *result) Output() string {
 
 func (r *result) Err() string {
 	return r.err
+}
+
+func (r *result) Spent() int64 {
+	return r.spent
 }
