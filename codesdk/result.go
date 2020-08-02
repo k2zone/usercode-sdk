@@ -8,9 +8,9 @@ import (
 const _SPLIT_FLAG = "~~>|kTWO|<~~"
 
 type Result struct {
-	out   string
-	err   string
-	spent int64
+	Out   string
+	Err   string
+	Spent int64
 }
 
 func newResult(out string, spent int64) (r *Result) {
@@ -31,9 +31,9 @@ func newResult(out string, spent int64) (r *Result) {
 	}
 
 	r = &Result{
-		out:   outBuffer.String(),
-		err:   errs,
-		spent: spent,
+		Out:   outBuffer.String(),
+		Err:   errs,
+		Spent: spent,
 	}
 	return
 }
