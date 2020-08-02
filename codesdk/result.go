@@ -7,19 +7,13 @@ import (
 
 const _SPLIT_FLAG = "~~>|kTWO|<~~"
 
-type Result interface {
-	Out() string
-	Err() string
-	Spent() int64
-}
-
-type result struct {
+type Result struct {
 	out   string
 	err   string
 	spent int64
 }
 
-func newResult(out string, spent int64) (r *result) {
+func newResult(out string, spent int64) (r *Result) {
 	var (
 		outBuffer bytes.Buffer
 		errs      string
@@ -36,22 +30,10 @@ func newResult(out string, spent int64) (r *result) {
 		errs = errlog[0]
 	}
 
-	r = &result{
+	r = &Result{
 		out:   outBuffer.String(),
 		err:   errs,
 		spent: spent,
 	}
 	return
-}
-
-func (r *result) Output() string {
-	return r.out
-}
-
-func (r *result) Err() string {
-	return r.err
-}
-
-func (r *result) Spent() int64 {
-	return r.spent
 }

@@ -2,6 +2,7 @@ package codesdk
 
 import (
 	"fmt"
+	"github.com/go-kratos/kratos/pkg/log"
 	"os"
 	"time"
 )
@@ -23,10 +24,9 @@ func (c *Cli) init() {
 	makeCompMap(&c.compMap)
 }
 
-func (c *Cli) Run(p *Params) (res *result, err error) {
+func (c *Cli) Run(p *Params) (res *Result, err error) {
 	ext, ok := c.compMap[p.Compiler]
 	if !ok {
-		//err = errors.New("不支持的编译语言")
 		err = notSupport
 		return
 	}
@@ -44,7 +44,7 @@ func (c *Cli) Run(p *Params) (res *result, err error) {
 	}
 	et := time.Now().UnixNano() / 1e6
 	if err != nil || stderr != "" {
-		//err = errors.New("运行出错")
+		log.Error("code run err(%v) stderr(%s)", err, stderr)
 		err = runError
 		return
 	}

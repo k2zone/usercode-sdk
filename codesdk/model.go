@@ -19,7 +19,7 @@ type cli struct {
 const (
 	_BASE = "docker run -i --rm=true"
 	//_DIR_NAME         = "/usercode/"
-	_SCRIPT_NAME      = "/usr/local/script/coderun"
+	_SCRIPT_NAME = "/usr/local/script/coderun"
 	//_INPUT_FILE_NAME  = "/usercode/inputFile"
 	//_ERROR_FILE_NAME  = "/usercode/errors"
 	//_LOG_FILE_NAME    = "/usercode/logfile.txt"
