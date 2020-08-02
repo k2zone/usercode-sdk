@@ -16,6 +16,12 @@ type cli struct {
 	result   string
 }
 
+type shellResult struct {
+	stdout string
+	stderr string
+	err    error
+}
+
 const (
 	_BASE = "docker run -i --rm=true"
 	//_DIR_NAME         = "/usercode/"
