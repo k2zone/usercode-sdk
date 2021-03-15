@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/k2zone/usercode-sdk/codesdk"
 )
@@ -12,14 +13,20 @@ func main() {
 		MemorySwap: "128M",
 		Memory:     "64M",
 	})
-	res, err := cli.Run(&codesdk.Params{
-		Compiler: codesdk.SWIFT,
-		Stdin:    "a",
-		Script:   `print("Hello World Swift")`,
-	})
+	res, err := cli.Run(
+		context.Background(),
+		&codesdk.Params{
+			Compiler: codesdk.SWIFT,
+			Stdin:    "a",
+			Script:   `print("Hello World Swift")`,
+		},
+	)
 	fmt.Printf("res:%+v\n", res)
 	fmt.Printf("err:%+v", err)
+
 }
+
+
 
 /*
 switch ($command) {

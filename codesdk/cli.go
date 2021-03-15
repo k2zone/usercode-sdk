@@ -1,9 +1,9 @@
 package codesdk
 
 import (
-	"fmt"
+	"context"
 	"github.com/go-kratos/kratos/pkg/log"
-	"os"
+	"github.com/k2zone/usercode-sdk/command"
 	"time"
 )
 
@@ -24,7 +24,7 @@ func (c *Cli) init() {
 	makeCompMap(&c.compMap)
 }
 
-func (c *Cli) Run(p *Params) (res *Result, err error) {
+func (c *Cli) Run(ctx context.Context, p *Params) (res *Result, err error) {
 	ext, ok := c.compMap[p.Compiler]
 	if !ok {
 		err = notSupport
@@ -35,16 +35,21 @@ func (c *Cli) Run(p *Params) (res *Result, err error) {
 	var (
 		stdout string
 		stderr string
+		cmd    = command.NewCmd(cli.toString())
 	)
-
 	st := time.Now().UnixNano() / 1e6
 	select {
-	case sRet := <-runCli(cli.toString()):
-		stdout = sRet.stdout
-		stderr = sRet.stderr
-		err = sRet.err
+	case sRet := <-cmd.Run():
+		stdout = sRet.Stdout
+		stderr = sRet.Stderr
+		err = sRet.Err
 
-	case <-time.After(time.Second * time.Duration(c.conf.Timeout+1)): // +1秒的编译时间
+	case <-time.After(time.Second * time.Duration(c.conf.Timeout+2)): // +1秒的编译时间
+		cmd.Kill()
+		err = runTimeout
+
+	case <-ctx.Done():
+		cmd.Kill()
 		err = runTimeout
 	}
 	et := time.Now().UnixNano() / 1e6
@@ -56,33 +61,4 @@ func (c *Cli) Run(p *Params) (res *Result, err error) {
 	}
 	res = newResult(stdout, et-st)
 	return
-}
-
-func runCli(cli string) <-chan *shellResult {
-	ret := make(chan *shellResult)
-	go func() {
-		defer func() {
-			if err := recover(); err != nil {
-				log.Error("panic err(%v)", err)
-				ret <- &shellResult{
-					err: runError,
-				}
-			}
-		}()
-		if os.Getenv("DEPLOY_ENV") == "uat" {
-			ret <- &shellResult{
-				stdout: "this is test~~>|kTWO|<~~warning",
-			}
-			fmt.Println(cli)
-			return
-		}
-		stdout, stderr, err := shell(cli)
-		ret <- &shellResult{
-			stdout: stdout,
-			stderr: stderr,
-			err:    err,
-		}
-	}()
-
-	return ret
 }

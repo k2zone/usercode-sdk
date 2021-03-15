@@ -34,6 +34,7 @@ func shell(shell string) (string, string, error) {
 	cmd.Stderr = &stderr
 	// 执行
 	err := cmd.Run()
+
 	return stdout.String(), stderr.String(), err
 }
 
