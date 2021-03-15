@@ -3,7 +3,7 @@ package codesdk
 import (
 	"context"
 	"github.com/go-kratos/kratos/pkg/log"
-	"github.com/k2zone/usercode-sdk/command"
+	"usercode-sdk/command"
 	"time"
 )
 
